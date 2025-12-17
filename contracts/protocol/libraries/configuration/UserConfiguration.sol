@@ -17,6 +17,7 @@ library UserConfiguration {
     0x5555555555555555555555555555555555555555555555555555555555555555;
   uint256 internal constant COLLATERAL_MASK =
     0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA;
+  uint256 internal constant LIQUIDATION_FLAG_MASK = 0x1;
 
   /**
    * @notice Sets if the user is borrowing the reserve identified by reserveIndex
@@ -211,6 +212,33 @@ library UserConfiguration {
     }
 
     return (false, address(0));
+  }
+
+  /**
+   * @notice 
+   * @param self The configuration object
+   * @param flagged Whether or not this account is flagged for liquidation
+   */
+  function setFlaggedForLiquidation(
+    DataTypes.UserConfigurationMap storage self,
+    bool flagged
+  ) internal {
+    // prevent resetting the flag time by flagging again
+    if (self.liquidationFlagTime > 0 && flagged) {
+        return;
+    }
+    self.liquidationFlagTime = flagged ? block.timestamp : 0;
+  }
+
+  /**
+   * @notice Returns whether or not the user is flagged for liquidation
+   * @param self The configuration object
+   * @return Whether or not 
+   */
+  function isFlaggedForLiquidation(
+    DataTypes.UserConfigurationMap memory self
+  ) internal pure returns (bool) {
+    return self.liquidationFlagTime > 0;
   }
 
   /**

@@ -399,9 +399,22 @@ interface IPool {
   function setUserUseReserveAsCollateral(address asset, bool useAsCollateral) external;
 
   /**
+   * @notice Function to mark an account as ready for liquidation. This is needed prior to a call to `liquidationCall`.
+   * The parameters passed to this function should be the same as those passed to `liquidationCall`.
+   */
+  function flagForLiquidation(
+    address collateralAsset,
+    address debtAsset,
+    address user,
+    uint256 debtToCover,
+    bool receiveAToken
+  ) external;
+
+  /**
    * @notice Function to liquidate a non-healthy position collateral-wise, with Health Factor below 1
    * - The caller (liquidator) covers `debtToCover` amount of debt of the user getting liquidated, and receives
    *   a proportionally amount of the `collateralAsset` plus a bonus to cover market risk
+   * TODO update logic for flag
    * @param collateralAsset The address of the underlying asset used as collateral, to receive as result of the liquidation
    * @param debtAsset The address of the underlying borrowed asset to be repaid with the liquidation
    * @param user The address of the borrower getting liquidated

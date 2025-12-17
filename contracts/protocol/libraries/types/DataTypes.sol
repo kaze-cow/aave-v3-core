@@ -67,6 +67,11 @@ library DataTypes {
      * asset is borrowed by the user.
      */
     uint256 data;
+
+    /**
+     * @dev The date at which the user was flagged for liquidation. If 0, the user is not flagged.
+     */
+    uint256 liquidationFlagTime;
   }
 
   struct EModeCategory {
