@@ -215,7 +215,7 @@ library UserConfiguration {
   }
 
   /**
-   * @notice 
+   * @notice
    * @param self The configuration object
    * @param flagged Whether or not this account is flagged for liquidation
    */
@@ -225,7 +225,7 @@ library UserConfiguration {
   ) internal {
     // prevent resetting the flag time by flagging again
     if (self.liquidationFlagTime > 0 && flagged) {
-        return;
+      return;
     }
     self.liquidationFlagTime = flagged ? block.timestamp : 0;
   }
@@ -233,7 +233,7 @@ library UserConfiguration {
   /**
    * @notice Returns whether or not the user is flagged for liquidation
    * @param self The configuration object
-   * @return Whether or not 
+   * @return Whether or not
    */
   function isFlaggedForLiquidation(
     DataTypes.UserConfigurationMap memory self
